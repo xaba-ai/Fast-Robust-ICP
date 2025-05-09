@@ -20,18 +20,3 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 #--- Nanoflann
 find_package(NanoFlann REQUIRED)
 include_directories(${NANOFLANN_INCLUDE_DIR})
-
-#--- Build example
-include_directories(.)
-file(GLOB SOURCES "*.cpp")
-file(GLOB HEADERS "*.h")
-add_executable(FRICP ${SOURCES} ${HEADERS})
-
-if(APPLE OR UNIX)
-    #--- Deploy data folder link
-    execute_process(COMMAND ln -f -s ${CMAKE_SOURCE_DIR}/data WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-    #--- "Dummy" target to have data appear in QtCreator
-    add_custom_target(data SOURCES ${CMAKE_SOURCE_DIR}/data)
-else()
-    file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${PROJECT_BINARY_DIR})
-endif()
